@@ -53,7 +53,8 @@ class LocalMemCache
     o = { :size_mb => 0 }.update(options || {})
     _new(o);
   end
-  def has_key?(k) !get(k).nil? end
+  alias _get get
+  def has_key?(k) !_get(k).nil? end
 
   #  <code>SharedObjectStorage</code> inherits from class LocalMemCache but
   #  stores Ruby objects as values instead of just strings (It still uses
