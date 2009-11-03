@@ -107,7 +107,11 @@ class LocalMemCache
     def [](key) check if (@counter += 1) > @check_interval; @c[key] end
     alias set []=
     alias get []
+    def has_key?(key) @c.has_key?(key) end
     def clear() @c.clear end
+    def delete(key) @c.delete(key) end
+    def size() @c.size end
+    def shm_status() @c.shm_status end
     def each_pair(&block) @c.each_pair(&block) end
     def random_pair() @c.random_pair() end
     def hash() @c; end
