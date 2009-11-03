@@ -80,8 +80,8 @@ class LocalMemCache
     def initialize(options) 
       o = { 
         :interval_secs => 10 * 60,
-	:hash_type => LocalMemCache::SharedObjectStorage,
-	:check_interval => 10000
+        :hash_type => LocalMemCache::SharedObjectStorage,
+        :check_interval => 10000
       }.update(options || {})
       @c = o[:hash_type].new(o) 
       @counter = 0
@@ -90,11 +90,11 @@ class LocalMemCache
     end
     def check
       @counter = 0
-      @c["localmemcache-last-clear"] = Time.now.to_i if 
-          !@c["localmemcache-last-clear"]
-      if Time.now.to_i - @c["localmemcache-last-clear"].to_i >= @interval
-	clear
-        @c["localmemcache-last-clear"] = Time.now.to_i
+      now = Time.now.to_i
+      @c["localmemcache-last-clear"] ||= now
+      if now - @c["localmemcache-last-clear"].to_i >= @interval
+        clear
+        @c["localmemcache-last-clear"] = now
       end
     end
     def []=(key,val) 
@@ -114,6 +114,7 @@ class LocalMemCache
     def shm_status() @c.shm_status end
     def each_pair(&block) @c.each_pair(&block) end
     def random_pair() @c.random_pair() end
+    def keys() @c.keys end
     def hash() @c; end
   end
 
